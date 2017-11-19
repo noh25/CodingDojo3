@@ -5,9 +5,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CodingDojo3_Hava"
+        xmlns:converter="clr-namespace:CodingDojo3_Hava.Converter"
         mc:Ignorable="d"
-        DataContext="{Binding Source={StaticResource Locator}, Path=ViewModelName}"
+        DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
         Title="MainWindow" Height="960" Width="1280" Background="Black">
+
+    <Window.Resources>
+        <converter:StringToBrushConverter x:Key="converter"/>
+    </Window.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -103,8 +109,8 @@
                         <Border BorderThickness="0,0,0,1" BorderBrush="LightGray">
                             <StackPanel Orientation="Vertical" Margin="0,0,0,10">
                                 <!--<Image Margin="10,10,5,10" Height="48" Source="Images/clock-01.png"/>-->
-                                <Label Content="12:34" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="18" Foreground="White"/>
-                                <Label Content="25.09.2017" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="18" Foreground="White"/>
+                                <Label Content="{Binding CurrentTime}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="18" Foreground="White"/>
+                                <Label Content="{Binding CurrentDate}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="18" Foreground="White"/>
 
                             </StackPanel>
                         </Border>
@@ -114,13 +120,47 @@
         </Border>
         <StackPanel HorizontalAlignment="Left" Height="840" Margin="10,9.6,0,0" Grid.Row="1" VerticalAlignment="Top" Width="1054">
             <Label Content="Aktoren" Foreground="White" FontSize="18"/>
-            <DataGrid HorizontalAlignment="Left" Height="250" Margin="0,10,0,10" Grid.Row="1" VerticalAlignment="Top" Width="1054" ItemsSource="{Binding ActorList}"/>
+            <DataGrid HorizontalAlignment="Left" Height="250" Margin="0,10,0,10" Grid.Row="1" VerticalAlignment="Top" Width="1054" ItemsSource="{Binding ActorList}" AutoGenerateColumns="True"/>
+            
             <StackPanel Orientation="Horizontal" Height="100" HorizontalAlignment="Right">
-                <Button HorizontalAlignment="Center" Content="Hinzufügen" Margin="10,10,5,5" Height="48" FontSize="18" Background="#FF020202" BorderBrush="#FFF9F9F9" Foreground="White"/>
-                <Button HorizontalAlignment="Center" Content="Löschen" Margin="10,10,5,5" Height="48" FontSize="18" Background="#FF020202" BorderBrush="#FFF9F9F9" Foreground="White"/>
+                <Button HorizontalAlignment="Center" Content="Hinzufügen" Margin="10,10,5,5" Height="48" FontSize="18" Background="#FF020202" BorderBrush="#FFF9F9F9" Foreground="White" Command="{Binding BtnAddActuator}"/>
+                <Button HorizontalAlignment="Center" Content="Löschen" Margin="10,10,5,5" Height="48" FontSize="18" Background="#FF020202" BorderBrush="#FFF9F9F9" Foreground="White" Command="{Binding BtnDeleteActuator}"/>
             </StackPanel>
+            
             <Label Content="Sensoren" Foreground="White" FontSize="18"/>
-            <DataGrid HorizontalAlignment="Left" Height="250" Margin="0,10,0,10" Grid.Row="1" VerticalAlignment="Top" Width="1054"/>
+            <DataGrid HorizontalAlignment="Left" Height="250" Margin="0,10,0,10" Grid.Row="1" VerticalAlignment="Top" Width="1054" ItemsSource="{Binding SensorList}" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Id}" Header="Id"/>
+                    <DataGridTextColumn Binding="{Binding Name}" Header="Name"/>
+                    <DataGridTextColumn Binding="{Binding Description}" Header="Description"/>
+                    <DataGridTextColumn Binding="{Binding Room}" Header="Room"/>
+                    <DataGridTemplateColumn   Header="Mode" Width="90">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding Mode}" Height="25"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.CellEditingTemplate>
+                            <DataTemplate>
+                                <ComboBox SelectedItem="{Binding Mode, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding DataContext.ModeSelectionList, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" Height="25"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellEditingTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Binding="{Binding ValueType}" Header="ValueType"/>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Ellipse Height="15" Width="15" Fill="{Binding Mode, Converter={StaticResource converter}}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Binding="{Binding Value}" Header="Value"/>
+
+                    <DataGridTextColumn Binding="{Binding PosX}" Header="PosX"/>
+                    <DataGridTextColumn Binding="{Binding PosY}" Header="PosY"/>
+
+                </DataGrid.Columns>
+            </DataGrid>
             <StackPanel Orientation="Horizontal" Height="100" HorizontalAlignment="Right">
                 <Button HorizontalAlignment="Center" Content="Hinzufügen" Margin="10,10,5,5" Height="48" FontSize="18" Background="#FF020202" BorderBrush="#FFF9F9F9" Foreground="White"/>
                 <Button HorizontalAlignment="Center" Content="Löschen" Margin="10,10,5,5" Height="48" FontSize="18" Background="#FF020202" BorderBrush="#FFF9F9F9" Foreground="White"/>

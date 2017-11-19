@@ -13,33 +13,33 @@ namespace CodingDojo3_Hava.ViewModel
 
         public int Id
         {
-            get { return this.Id; }
+            get { return baseItem.Id; }
             //set;
         }
         public string Description
         {
-            get { return this.Description; }
-            set { this.Description = value; RaisePropertyChanged(); }
+            get { return baseItem.Description; }
+            set { baseItem.Description = value; RaisePropertyChanged(); }
         }
         public string Name
         {
-            get { return this.Name; }
-            set { this.Name = value; RaisePropertyChanged(); }
+            get { return baseItem.Name; }
+            set { baseItem.Name = value; RaisePropertyChanged(); }
         }
         public string Room
         {
-            get { return this.Room; }
-            set { this.Room = value; RaisePropertyChanged(); }
+            get { return baseItem.Room; }
+            set { baseItem.Room = value; RaisePropertyChanged(); }
         }
         public int PosX
         {
-            get { return this.PosX; }
-            set { this.PosX = value; RaisePropertyChanged(); }
+            get { return baseItem.PosX; }
+            set { baseItem.PosX = value; RaisePropertyChanged(); }
         }
         public int PosY
         {
-            get { return this.PosY; }
-            set { this.PosY = value; RaisePropertyChanged(); }
+            get { return baseItem.PosY; }
+            set { baseItem.PosY = value; RaisePropertyChanged(); }
         }
         public string ValueType
         {
@@ -108,5 +108,4 @@ namespace CodingDojo3_Hava.ViewModel
 
 
 
-}
 }
